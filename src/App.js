@@ -13,14 +13,31 @@ import pizzaImg from './images/pizza.jpg';
 const reducer = (money = 0, amount = 0) => money + amount;
 
 function App() {
+  // We use useReducer to create the money variable.
+  // We need to use useReducer rather than useState
+  // because we have three items that use it, very
+  // quickly after each other.
+  //
+  // For some reason (batching?) we ran into situations
+  // where some of the changes to the state was ignored
+  //
+  // With useReducer, we provide the reducer function
+  // ourselves, so we can make sure nothing gets missed.
   const [money, setMoney] = useReducer(reducer, 100);
 
+  // React allows us to make our own hooks. This means
+  // that I can reuse the item creation logic. This
+  // is amazing when compared to old versions of React.
+  //
+  // useItem wants the price of the item, and a function
+  // which updates the money value. It returns everything
+  // we need to create items.
   const [
-    hasLemonade,
-    setHasLemonade,
+    hasLemonade, // Lets us know if we have purchased the lemonade stand
+    setHasLemonade, // lets us say we have purchased the stand
     lemonadePrice,
-    hasLemonadePurchaser,
-    setHasLemonadePurchaser,
+    hasLemonadePurchaser, // Lets us know how many lemonade sellers we have
+    setHasLemonadePurchaser, // Lets us update the amount of lemonade sellers
   ] = useItem(3, setMoney);
 
   const [
@@ -39,6 +56,13 @@ function App() {
     setHasPizzaPurchaser,
   ] = useItem(20, setMoney);
 
+  // One of the most simple ways to avoid bugs in your code
+  // is to make sure that the data you are working with is
+  // exactly how you want it, as soon as you can. Here
+  // we are creating a list of items which have everything
+  // they need. By getting it right here, we can avoid bugs
+  // later. By making a list of items, we can avoid having
+  // to write tedious code for each item later.
   const items = [
     {
       hasItem: hasLemonade,
@@ -81,15 +105,21 @@ function App() {
     },
   ];
 
+  // Sell and purchase are functions which are ran after clicking
+  // buttons and images. We use these to change the amount of money we have,
+  // and in the case of purchase, change the amount of a stand or seller we have.
   const sell = (amount = 1) => {
     setMoney(amount);
   };
 
+  // func is the function that updates the value of the item we have purchased
+  // value is the current amount of items we have, and amount is the price of the item.
   const purchase = (func, value, amount) => {
     func(value + 1);
     setMoney(amount);
   };
 
+  // Build the elements using the values and functions we have created earlier
   return (
     <ClassNames>
       {({css}) => (
