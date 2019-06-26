@@ -115,16 +115,21 @@ function App() {
   return (
     <ClassNames>
       {({css}) => (
-        <div className="App">
-          <header className="App-header">
+        <>
+          <header>
             <h1>£{money}</h1>
+          </header>
+          <main
+            className={css`
+              display: flex;
+            `}>
             <div
               className={css`
-                display: flex;
+                flex: 1;
               `}>
               <ul>
                 {items.map(item => (
-                  <li>
+                  <li key={item.name}>
                     {item.hasItem > 0 && (
                       <img
                         src={item.imageUrl}
@@ -148,9 +153,15 @@ function App() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div
+              className={css`
+                flex: 1;
+              `}>
               <ul>
                 {items.map(item => (
-                  <li>
+                  <li key={item.name}>
                     {item.hasItem > 0 && money >= item.purchaserPrice && (
                       <button
                         onClick={() =>
@@ -164,11 +175,11 @@ function App() {
                       </button>
                     )}
                   </li>
-                ))}{' '}
+                ))}
               </ul>
             </div>
-          </header>
-        </div>
+          </main>
+        </>
       )}
     </ClassNames>
   );
