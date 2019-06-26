@@ -1,7 +1,16 @@
 import React, {useState, useReducer} from 'react';
 import useInterval from 'use-interval';
 import {ClassNames} from '@emotion/core';
+import Typography from 'typography';
+
+import lemonadeImg from './lemonade.jpg';
+import iceCreamImg from './icecream.jpg';
+import pizzaImg from './pizza.jpg';
 import './App.css';
+
+const typography = new Typography();
+
+typography.injectStyles();
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -62,7 +71,7 @@ function App() {
       setHasPurchaser: setHasLemonadePurchaser,
       purchaserPrice: 50,
 
-      imageUrl: 'lemonade.jpg',
+      imageUrl: lemonadeImg,
       standPrice: 100,
       name: 'Lemonade Stand',
     },
@@ -75,7 +84,7 @@ function App() {
       setHasPurchaser: setHasIceCreamPurchaser,
       purchaserPrice: 75,
 
-      imageUrl: 'ice cream.jpg',
+      imageUrl: iceCreamImg,
       standPrice: 150,
       name: 'Ice Cream Stand',
     },
@@ -86,9 +95,9 @@ function App() {
 
       hasPurchaser: hasPizzaPurchaser,
       setHasPurchaser: setHasPizzaPurchaser,
-      purchasePrice: 200,
+      purchaserPrice: 200,
 
-      imageUrl: 'pizza.jpg',
+      imageUrl: pizzaImg,
       standPrice: 400,
       name: 'Pizza Shack',
     },
@@ -108,12 +117,10 @@ function App() {
       {({css}) => (
         <div className="App">
           <header className="App-header">
-            <h1
-              className={css`
-                background: red;
-              `}>
+            <h1>
               £{money}
             </h1>
+            <div className={css`display: flex`}>
             <ul>
               {items.map(item => (
                 <li>
@@ -133,7 +140,12 @@ function App() {
                       Purchase {item.name}
                     </button>
                   )}
-
+                </li>
+              ))}
+            </ul>
+            <ul>
+              {items.map(item => (
+                <li>
                   {item.hasItem > 0 && money >= item.purchaserPrice && (
                     <button
                       onClick={() =>
@@ -147,8 +159,7 @@ function App() {
                     </button>
                   )}
                 </li>
-              ))}
-            </ul>
+              ))}   </ul></div>
           </header>
         </div>
       )}
