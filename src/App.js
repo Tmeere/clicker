@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import useInterval from 'use-interval';
-import './App.css';
+import React, { useState } from "react";
+import useInterval from "use-interval";
+import "./App.css";
 
 function App() {
   const [money, setMoney] = useState(100);
@@ -9,12 +9,23 @@ function App() {
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
   const lemonadePrice = 3;
 
+  const [hasIceCream, setHasIceCream] = useState(0);
+  const [hasIceCreamPurchaser, setHasIceCreamPurchaser] = useState(0);
+  const iceCreamPrice = 10;
+
+  const [hasPizza, setHasPizza] = useState(0);
+  const [hasPizzaPurchaser, setHasPizzaPurchaser] = useState(0);
+  const pizzaPrice = 20;
+
   useInterval(
     () => setMoney(lemonadePrice * hasLemonadePurchaser + money),
-    1000,
+    1000
   );
-
-  const [hasIceCream, setHasIceCream] = useState(false);
+  useInterval(
+    () => setMoney(iceCreamPrice * hasIceCreamPurchaser + money),
+    1000
+  );
+  useInterval(() => setMoney(pizzaPrice * hasPizzaPurchaser + money), 1000);
 
   const items = [
     {
@@ -26,23 +37,36 @@ function App() {
       hasPurchaser: hasLemonadePurchaser,
       purchaserPrice: 50,
 
-      imageUrl: 'lemonade.jpg',
+      imageUrl: "lemonade.jpg",
       standPrice: 100,
-      name: 'Lemonade Stand',
+      name: "Lemonade Stand"
     },
     {
       hasItem: hasIceCream,
       setHasItem: setHasIceCream,
-      itemPrice: 10,
+      itemPrice: iceCreamPrice,
 
-      hasPurchaser: false,
-      setHasPurchaser: () => {},
-      purchaserPrice: 999999999,
+      hasPurchaser: hasIceCreamPurchaser,
+      setHasPurchaser: setHasIceCreamPurchaser,
+      purchaserPrice: 75,
 
-      imageUrl: 'ice cream.jpg',
+      imageUrl: "ice cream.jpg",
       standPrice: 150,
-      name: 'Ice Cream Stand',
+      name: "Ice Cream Stand"
     },
+    {
+      hasItem: hasPizza,
+      setHasItem: setHasPizza,
+      itemPrice: pizzaPrice,
+
+      setHasPurchaser: setHasPizzaPurchaser,
+      hasPurchaser: hasPizzaPurchaser,
+      purchaserPrice: 200,
+
+      imageUrl: "pizza.jpg",
+      standPrice: 400,
+      name: "Pizza Shack"
+    }
   ];
 
   const sell = (num = 1) => {
@@ -73,7 +97,8 @@ function App() {
                 <button
                   onClick={() =>
                     purchase(item.setHasItem, item.hasItem, item.standPrice)
-                  }>
+                  }
+                >
                   Purchase {item.name}
                 </button>
               )}
@@ -84,9 +109,10 @@ function App() {
                     purchase(
                       item.setHasPurchaser,
                       item.hasPurchaser,
-                      item.purchaserPrice,
+                      item.purchaserPrice
                     )
-                  }>
+                  }
+                >
                   Purchase {item.name} Buyer
                 </button>
               )}
