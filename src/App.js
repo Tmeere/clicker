@@ -10,7 +10,7 @@ function App() {
   const lemonadePrice = 3;
 
   useInterval(
-    () => setMoney(money + lemonadePrice * hasLemonadePurchaser),
+    () => setMoney(lemonadePrice * hasLemonadePurchaser + money),
     1000,
   );
 
@@ -57,8 +57,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {money}
-
+        £{money}
         <ul>
           {items.map(item => (
             <li>
