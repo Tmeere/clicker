@@ -1,10 +1,21 @@
-import React, { useState } from "react";
-import useInterval from "use-interval";
-import { ClassNames } from "@emotion/core";
-import "./App.css";
+import React, {useState, useReducer} from 'react';
+import useInterval from 'use-interval';
+import {ClassNames} from '@emotion/core';
+import './App.css';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'increment':
+      return {money: state.money + action.amount};
+    case 'decrement':
+      return {money: state.money - action.amount};
+    default:
+      return state;
+  }
+};
 
 function App() {
-  const [money, setMoney] = useState(100);
+  const [{money}, dispatch] = useReducer(reducer, {money: 100});
 
   const [hasLemonade, setHasLemonade] = useState(0);
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
@@ -19,16 +30,27 @@ function App() {
   const pizzaPrice = 20;
 
   useInterval(
-    () => setMoney(lemonadePrice * hasLemonadePurchaser + money),
-    1000
+    () =>
+      dispatch({
+        type: 'increment',
+        amount: hasLemonadePurchaser * lemonadePrice,
+      }),
+    1000,
   );
 
   useInterval(
-    () => setMoney(iceCreamPrice * hasIceCreamPurchaser + money),
-    1000
+    () =>
+      dispatch({
+        type: 'increment',
+        amount: hasIceCreamPurchaser * iceCreamPrice,
+      }),
+    1000,
   );
 
-  useInterval(() => setMoney(pizzaPrice * hasPizzaPurchaser + money), 1000);
+  useInterval(
+    () => dispatch({type: 'increment', amount: hasPizzaPurchaser * pizzaPrice}),
+    1000,
+  );
 
   const items = [
     {
@@ -36,13 +58,13 @@ function App() {
       setHasItem: setHasLemonade,
       itemPrice: lemonadePrice,
 
-      setHasPurchaser: setHasLemonadePurchaser,
       hasPurchaser: hasLemonadePurchaser,
+      setHasPurchaser: setHasLemonadePurchaser,
       purchaserPrice: 50,
 
-      imageUrl: "lemonade.jpg",
+      imageUrl: 'lemonade.jpg',
       standPrice: 100,
-      name: "Lemonade Stand"
+      name: 'Lemonade Stand',
     },
     {
       hasItem: hasIceCream,
@@ -53,44 +75,43 @@ function App() {
       setHasPurchaser: setHasIceCreamPurchaser,
       purchaserPrice: 75,
 
-      imageUrl: "ice cream.jpg",
+      imageUrl: 'ice cream.jpg',
       standPrice: 150,
-      name: "Ice Cream Stand"
+      name: 'Ice Cream Stand',
     },
     {
       hasItem: hasPizza,
       setHasItem: setHasPizza,
       itemPrice: pizzaPrice,
 
+      hasPurchaser: hasPizzaPurchaser,
       setHasPurchaser: setHasPizzaPurchaser,
-      hasPurchaser: setHasPizzaPurchaser,
-      purchasrPrice: 200,
+      purchasePrice: 200,
 
-      imageUrl: "pizza.jpg",
+      imageUrl: 'pizza.jpg',
       standPrice: 400,
-      name: "Pizza Shack"
-    }
+      name: 'Pizza Shack',
+    },
   ];
 
   const sell = (num = 1) => {
-    setMoney(money + num);
+    dispatch({type: 'increment', amount: num});
   };
 
   const purchase = (func, value, price) => {
     func(value + 1);
-    setMoney(money - price);
+    dispatch({type: 'decrement', amount: price});
   };
 
   return (
     <ClassNames>
-      {({ css }) => (
+      {({css}) => (
         <div className="App">
           <header className="App-header">
             <h1
               className={css`
                 background: red;
-              `}
-            >
+              `}>
               £{money}
             </h1>
             <ul>
@@ -108,8 +129,7 @@ function App() {
                     <button
                       onClick={() =>
                         purchase(item.setHasItem, item.hasItem, item.standPrice)
-                      }
-                    >
+                      }>
                       Purchase {item.name}
                     </button>
                   )}
@@ -120,10 +140,9 @@ function App() {
                         purchase(
                           item.setHasPurchaser,
                           item.hasPurchaser,
-                          item.purchaserPrice
+                          item.purchaserPrice,
                         )
-                      }
-                    >
+                      }>
                       Purchase {item.name} Buyer
                     </button>
                   )}
