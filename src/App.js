@@ -8,6 +8,7 @@ function App() {
   const [hasLemonade, setHasLemonade] = useState(false);
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(false);
   const lemonadePrice = 3;
+
   useInterval(
     () => hasLemonadePurchaser && setMoney(money + lemonadePrice),
     1000,
