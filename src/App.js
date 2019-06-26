@@ -7,7 +7,11 @@ function App() {
 
   const [hasLemonade, setHasLemonade] = useState(false);
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(false);
-  useInterval(() => hasLemonadePurchaser && setMoney(money + 3), 1000);
+  const lemonadePrice = 3;
+  useInterval(
+    () => hasLemonadePurchaser && setMoney(money + lemonadePrice),
+    1000,
+  );
 
   const [hasIceCream, setHasIceCream] = useState(false);
 
@@ -20,7 +24,7 @@ function App() {
       imageUrl: 'lemonade.jpg',
       standPrice: 100,
       purchaserPrice: 50,
-      itemPrice: 3,
+      itemPrice: lemonadePrice,
       name: 'Lemonade Stand',
     },
     {
