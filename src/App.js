@@ -2,19 +2,32 @@ import React, {useState} from 'react';
 import useInterval from 'use-interval';
 import './App.css';
 
+const useClickerItem = (price = 1, money = 0, setMoney = () => {}) => {
+  const [hasItem, setHasItem] = useState(0);
+  const [hasPurchaser, setHasPurchaser] = useState(0);
+
+  useInterval(() => setMoney(price * hasPurchaser + money), 1000);
+
+  return [hasItem, setHasItem, hasPurchaser, setHasPurchaser, price];
+};
+
 function App() {
   const [money, setMoney] = useState(100);
+  const [
+    hasLemonade,
+    setHasLemonade,
+    hasLemonadePurchaser,
+    setHasLemonadePurchaser,
+    lemonadePrice,
+  ] = useClickerItem(3, money, setMoney);
 
-  const [hasLemonade, setHasLemonade] = useState(0);
-  const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
-  const lemonadePrice = 3;
-
-  useInterval(
-    () => setMoney(lemonadePrice * hasLemonadePurchaser + money),
-    1000,
-  );
-
-  const [hasIceCream, setHasIceCream] = useState(false);
+  const [
+    hasIceCream,
+    setHasIceCream,
+    hasIceCreamPurchaser,
+    setHasIceCreamPurchaser,
+    iceCreamPrice,
+  ] = useClickerItem(10, money, setMoney);
 
   const items = [
     {
@@ -33,11 +46,11 @@ function App() {
     {
       hasItem: hasIceCream,
       setHasItem: setHasIceCream,
-      itemPrice: 10,
+      itemPrice: iceCreamPrice,
 
-      hasPurchaser: false,
-      setHasPurchaser: () => {},
-      purchaserPrice: 999999999,
+      hasPurchaser: hasIceCreamPurchaser,
+      setHasPurchaser: setHasIceCreamPurchaser,
+      purchaserPrice: 100,
 
       imageUrl: 'ice cream.jpg',
       standPrice: 150,
