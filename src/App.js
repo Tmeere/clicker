@@ -103,7 +103,7 @@ function App() {
             `}>
             <div
               className={css`
-                flex: 1;
+                flex: 2;
               `}>
               <ul>
                 {items.map(item => (
