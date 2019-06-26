@@ -5,12 +5,12 @@ import './App.css';
 function App() {
   const [money, setMoney] = useState(100);
 
-  const [hasLemonade, setHasLemonade] = useState(false);
-  const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(false);
+  const [hasLemonade, setHasLemonade] = useState(0);
+  const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
   const lemonadePrice = 3;
 
   useInterval(
-    () => hasLemonadePurchaser && setMoney(money + lemonadePrice),
+    () => setMoney(money + lemonadePrice * hasLemonadePurchaser),
     1000,
   );
 
@@ -18,22 +18,29 @@ function App() {
 
   const items = [
     {
-      purchased: hasLemonade,
-      purchaseFunction: setHasLemonade,
-      purchaserFunction: setHasLemonadePurchaser,
+      hasItem: hasLemonade,
+      setHasItem: setHasLemonade,
+      itemPrice: lemonadePrice,
+
+      setHasPurchaser: setHasLemonadePurchaser,
       hasPurchaser: hasLemonadePurchaser,
+      purchaserPrice: 50,
+
       imageUrl: 'lemonade.jpg',
       standPrice: 100,
-      purchaserPrice: 50,
-      itemPrice: lemonadePrice,
       name: 'Lemonade Stand',
     },
     {
-      purchased: hasIceCream,
-      purchaseFunction: setHasIceCream,
+      hasItem: hasIceCream,
+      setHasItem: setHasIceCream,
+      itemPrice: 10,
+
+      hasPurchaser: false,
+      setHasPurchaser: () => {},
+      purchaserPrice: 999999999,
+
       imageUrl: 'ice cream.jpg',
       standPrice: 150,
-      itemPrice: 10,
       name: 'Ice Cream Stand',
     },
   ];
@@ -42,8 +49,8 @@ function App() {
     setMoney(money + num);
   };
 
-  const purchaseStand = (func, price) => {
-    func(true);
+  const purchase = (func, value, price) => {
+    func(value + 1);
     setMoney(money - price);
   };
 
@@ -55,7 +62,7 @@ function App() {
         <ul>
           {items.map(item => (
             <li>
-              {item.purchased && (
+              {item.hasItem > 0 && (
                 <img
                   src={item.imageUrl}
                   alt={item.name}
@@ -63,25 +70,27 @@ function App() {
                 />
               )}
 
-              {money >= item.standPrice && !item.purchased && (
+              {money >= item.standPrice && !item.hasItem && (
                 <button
                   onClick={() =>
-                    purchaseStand(item.purchaseFunction, item.standPrice)
+                    purchase(item.setHasItem, item.hasItem, item.standPrice)
                   }>
                   Purchase {item.name}
                 </button>
               )}
 
-              {item.purchased &&
-                money >= item.purchaserPrice &&
-                !item.hasPurchaser && (
-                  <button
-                    onClick={() =>
-                      purchaseStand(item.purchaserFunction, item.purchaserPrice)
-                    }>
-                    Purchase {item.name} Buyer
-                  </button>
-                )}
+              {item.hasItem > 0 && money >= item.purchaserPrice && (
+                <button
+                  onClick={() =>
+                    purchase(
+                      item.setHasPurchaser,
+                      item.hasPurchaser,
+                      item.purchaserPrice,
+                    )
+                  }>
+                  Purchase {item.name} Buyer
+                </button>
+              )}
             </li>
           ))}
         </ul>
