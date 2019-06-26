@@ -3,6 +3,9 @@ import useInterval from 'use-interval';
 import {ClassNames} from '@emotion/core';
 import Typography from 'typography';
 
+import Item from './Item';
+import Purchaser from './Purchaser';
+
 import lemonadeImg from './lemonade.jpg';
 import iceCreamImg from './icecream.jpg';
 import pizzaImg from './pizza.jpg';
@@ -29,15 +32,6 @@ function App() {
   const [hasLemonade, setHasLemonade] = useState(0);
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
   const lemonadePrice = 3;
-
-  const [hasIceCream, setHasIceCream] = useState(0);
-  const [hasIceCreamPurchaser, setHasIceCreamPurchaser] = useState(0);
-  const iceCreamPrice = 10;
-
-  const [hasPizza, setHasPizza] = useState(0);
-  const [hasPizzaPurchaser, setHasPizzaPurchaser] = useState(0);
-  const pizzaPrice = 20;
-
   useInterval(
     () =>
       setMoney({
@@ -47,6 +41,9 @@ function App() {
     1000,
   );
 
+  const [hasIceCream, setHasIceCream] = useState(0);
+  const [hasIceCreamPurchaser, setHasIceCreamPurchaser] = useState(0);
+  const iceCreamPrice = 10;
   useInterval(
     () =>
       setMoney({
@@ -56,6 +53,9 @@ function App() {
     1000,
   );
 
+  const [hasPizza, setHasPizza] = useState(0);
+  const [hasPizzaPurchaser, setHasPizzaPurchaser] = useState(0);
+  const pizzaPrice = 20;
   useInterval(
     () => setMoney({type: 'increment', amount: hasPizzaPurchaser * pizzaPrice}),
     1000,
@@ -129,28 +129,13 @@ function App() {
               `}>
               <ul>
                 {items.map(item => (
-                  <li key={item.name}>
-                    {item.hasItem > 0 && (
-                      <img
-                        src={item.imageUrl}
-                        alt={item.name}
-                        onClick={() => sell(item.itemPrice)}
-                      />
-                    )}
-
-                    {money >= item.standPrice && !item.hasItem && (
-                      <button
-                        onClick={() =>
-                          purchase(
-                            item.setHasItem,
-                            item.hasItem,
-                            item.standPrice,
-                          )
-                        }>
-                        Purchase {item.name}
-                      </button>
-                    )}
-                  </li>
+                  <Item
+                    key={item.name}
+                    purchase={purchase}
+                    money={money}
+                    sell={sell}
+                    {...item}
+                  />
                 ))}
               </ul>
             </div>
@@ -161,20 +146,12 @@ function App() {
               `}>
               <ul>
                 {items.map(item => (
-                  <li key={item.name}>
-                    {item.hasItem > 0 && money >= item.purchaserPrice && (
-                      <button
-                        onClick={() =>
-                          purchase(
-                            item.setHasPurchaser,
-                            item.hasPurchaser,
-                            item.purchaserPrice,
-                          )
-                        }>
-                        Purchase {item.name} Buyer
-                      </button>
-                    )}
-                  </li>
+                  <Purchaser
+                    key={item.name}
+                    money={money}
+                    purchase={purchase}
+                    {...item}
+                  />
                 ))}
               </ul>
             </div>
