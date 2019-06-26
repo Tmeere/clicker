@@ -1,45 +1,16 @@
-import React, {useState, useReducer} from 'react';
-import useInterval from 'use-interval';
+import React, {useReducer} from 'react';
 import {ClassNames} from '@emotion/core';
-import Typography from 'typography';
 
 import Item from './components/Item';
 import Purchaser from './components/Purchaser';
+
+import useItem from './hooks/useItem';
 
 import lemonadeImg from './images/lemonade.jpg';
 import iceCreamImg from './images/icecream.jpg';
 import pizzaImg from './images/pizza.jpg';
 
-const typography = new Typography();
-
-typography.injectStyles();
-
-const reducer = (money, action) => {
-  switch (action.type) {
-    case 'increment':
-      return money + action.amount;
-    case 'decrement':
-      return money - action.amount;
-    default:
-      return money;
-  }
-};
-
-const useItem = (price = 0, setMoney) => {
-  const [hasItem, setHasItem] = useState(0);
-  const [hasPurchaser, setHasPurchaser] = useState(0);
-
-  useInterval(
-    () =>
-      setMoney({
-        type: 'increment',
-        amount: hasPurchaser * price,
-      }),
-    1000,
-  );
-
-  return [hasItem, setHasItem, price, hasPurchaser, setHasPurchaser];
-};
+const reducer = (money = 0, amount = 0) => money + amount;
 
 function App() {
   const [money, setMoney] = useReducer(reducer, 100);
@@ -111,12 +82,12 @@ function App() {
   ];
 
   const sell = (amount = 1) => {
-    setMoney({type: 'increment', amount});
+    setMoney(amount);
   };
 
   const purchase = (func, value, amount) => {
     func(value + 1);
-    setMoney({type: 'decrement', amount});
+    setMoney(amount);
   };
 
   return (

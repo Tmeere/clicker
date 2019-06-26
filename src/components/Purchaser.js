@@ -12,7 +12,9 @@ const Purchaser = ({
   <li>
     {hasItem > 0 && money >= purchaserPrice && (
       <button
-        onClick={() => purchase(setHasPurchaser, hasPurchaser, purchaserPrice)}>
+        onClick={() =>
+          purchase(setHasPurchaser, hasPurchaser, -purchaserPrice)
+        }>
         Purchase {name} Buyer
       </button>
     )}

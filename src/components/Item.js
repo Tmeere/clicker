@@ -17,7 +17,7 @@ const Item = ({
     )}
 
     {money >= standPrice && !hasItem && (
-      <button onClick={() => purchase(setHasItem, hasItem, standPrice)}>
+      <button onClick={() => purchase(setHasItem, hasItem, -standPrice)}>
         Purchase {name}
       </button>
     )}
