@@ -4,11 +4,12 @@ import './App.css';
 
 function App() {
   const [money, setMoney] = useState(100);
+
   const [hasLemonade, setHasLemonade] = useState(false);
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(false);
-  const [hasIceCream, setHasIceCream] = useState(false);
-
   useInterval(() => hasLemonadePurchaser && setMoney(money + 3), 1000);
+
+  const [hasIceCream, setHasIceCream] = useState(false);
 
   const items = [
     {
