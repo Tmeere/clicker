@@ -12,19 +12,19 @@ const typography = new Typography();
 
 typography.injectStyles();
 
-const reducer = (state, action) => {
+const reducer = (money, action) => {
   switch (action.type) {
     case 'increment':
-      return {money: state.money + action.amount};
+      return money + action.amount;
     case 'decrement':
-      return {money: state.money - action.amount};
+      return money - action.amount;
     default:
-      return state;
+      return money;
   }
 };
 
 function App() {
-  const [{money}, dispatch] = useReducer(reducer, {money: 100});
+  const [money, setMoney] = useReducer(reducer, 100);
 
   const [hasLemonade, setHasLemonade] = useState(0);
   const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
@@ -40,7 +40,7 @@ function App() {
 
   useInterval(
     () =>
-      dispatch({
+      setMoney({
         type: 'increment',
         amount: hasLemonadePurchaser * lemonadePrice,
       }),
@@ -49,7 +49,7 @@ function App() {
 
   useInterval(
     () =>
-      dispatch({
+      setMoney({
         type: 'increment',
         amount: hasIceCreamPurchaser * iceCreamPrice,
       }),
@@ -57,7 +57,7 @@ function App() {
   );
 
   useInterval(
-    () => dispatch({type: 'increment', amount: hasPizzaPurchaser * pizzaPrice}),
+    () => setMoney({type: 'increment', amount: hasPizzaPurchaser * pizzaPrice}),
     1000,
   );
 
@@ -103,13 +103,13 @@ function App() {
     },
   ];
 
-  const sell = (num = 1) => {
-    dispatch({type: 'increment', amount: num});
+  const sell = (amount = 1) => {
+    setMoney({type: 'increment', amount});
   };
 
-  const purchase = (func, value, price) => {
+  const purchase = (func, value, amount) => {
     func(value + 1);
-    dispatch({type: 'decrement', amount: price});
+    setMoney({type: 'decrement', amount});
   };
 
   return (
@@ -117,49 +117,56 @@ function App() {
       {({css}) => (
         <div className="App">
           <header className="App-header">
-            <h1>
-              £{money}
-            </h1>
-            <div className={css`display: flex`}>
-            <ul>
-              {items.map(item => (
-                <li>
-                  {item.hasItem > 0 && (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      onClick={() => sell(item.itemPrice)}
-                    />
-                  )}
+            <h1>£{money}</h1>
+            <div
+              className={css`
+                display: flex;
+              `}>
+              <ul>
+                {items.map(item => (
+                  <li>
+                    {item.hasItem > 0 && (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        onClick={() => sell(item.itemPrice)}
+                      />
+                    )}
 
-                  {money >= item.standPrice && !item.hasItem && (
-                    <button
-                      onClick={() =>
-                        purchase(item.setHasItem, item.hasItem, item.standPrice)
-                      }>
-                      Purchase {item.name}
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <ul>
-              {items.map(item => (
-                <li>
-                  {item.hasItem > 0 && money >= item.purchaserPrice && (
-                    <button
-                      onClick={() =>
-                        purchase(
-                          item.setHasPurchaser,
-                          item.hasPurchaser,
-                          item.purchaserPrice,
-                        )
-                      }>
-                      Purchase {item.name} Buyer
-                    </button>
-                  )}
-                </li>
-              ))}   </ul></div>
+                    {money >= item.standPrice && !item.hasItem && (
+                      <button
+                        onClick={() =>
+                          purchase(
+                            item.setHasItem,
+                            item.hasItem,
+                            item.standPrice,
+                          )
+                        }>
+                        Purchase {item.name}
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              <ul>
+                {items.map(item => (
+                  <li>
+                    {item.hasItem > 0 && money >= item.purchaserPrice && (
+                      <button
+                        onClick={() =>
+                          purchase(
+                            item.setHasPurchaser,
+                            item.hasPurchaser,
+                            item.purchaserPrice,
+                          )
+                        }>
+                        Purchase {item.name} Buyer
+                      </button>
+                    )}
+                  </li>
+                ))}{' '}
+              </ul>
+            </div>
           </header>
         </div>
       )}
