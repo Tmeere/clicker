@@ -3,13 +3,12 @@ import useInterval from 'use-interval';
 import {ClassNames} from '@emotion/core';
 import Typography from 'typography';
 
-import Item from './Item';
-import Purchaser from './Purchaser';
+import Item from './components/Item';
+import Purchaser from './components/Purchaser';
 
-import lemonadeImg from './lemonade.jpg';
-import iceCreamImg from './icecream.jpg';
-import pizzaImg from './pizza.jpg';
-import './App.css';
+import lemonadeImg from './images/lemonade.jpg';
+import iceCreamImg from './images/icecream.jpg';
+import pizzaImg from './images/pizza.jpg';
 
 const typography = new Typography();
 
@@ -26,40 +25,48 @@ const reducer = (money, action) => {
   }
 };
 
+const useItem = (price = 0, setMoney) => {
+  const [hasItem, setHasItem] = useState(0);
+  const [hasPurchaser, setHasPurchaser] = useState(0);
+
+  useInterval(
+    () =>
+      setMoney({
+        type: 'increment',
+        amount: hasPurchaser * price,
+      }),
+    1000,
+  );
+
+  return [hasItem, setHasItem, price, hasPurchaser, setHasPurchaser];
+};
+
 function App() {
   const [money, setMoney] = useReducer(reducer, 100);
 
-  const [hasLemonade, setHasLemonade] = useState(0);
-  const [hasLemonadePurchaser, setHasLemonadePurchaser] = useState(0);
-  const lemonadePrice = 3;
-  useInterval(
-    () =>
-      setMoney({
-        type: 'increment',
-        amount: hasLemonadePurchaser * lemonadePrice,
-      }),
-    1000,
-  );
+  const [
+    hasLemonade,
+    setHasLemonade,
+    lemonadePrice,
+    hasLemonadePurchaser,
+    setHasLemonadePurchaser,
+  ] = useItem(3, setMoney);
 
-  const [hasIceCream, setHasIceCream] = useState(0);
-  const [hasIceCreamPurchaser, setHasIceCreamPurchaser] = useState(0);
-  const iceCreamPrice = 10;
-  useInterval(
-    () =>
-      setMoney({
-        type: 'increment',
-        amount: hasIceCreamPurchaser * iceCreamPrice,
-      }),
-    1000,
-  );
+  const [
+    hasIceCream,
+    setHasIceCream,
+    iceCreamPrice,
+    hasIceCreamPurchaser,
+    setHasIceCreamPurchaser,
+  ] = useItem(10, setMoney);
 
-  const [hasPizza, setHasPizza] = useState(0);
-  const [hasPizzaPurchaser, setHasPizzaPurchaser] = useState(0);
-  const pizzaPrice = 20;
-  useInterval(
-    () => setMoney({type: 'increment', amount: hasPizzaPurchaser * pizzaPrice}),
-    1000,
-  );
+  const [
+    hasPizza,
+    setHasPizza,
+    pizzaPrice,
+    hasPizzaPurchaser,
+    setHasPizzaPurchaser,
+  ] = useItem(20, setMoney);
 
   const items = [
     {
@@ -78,7 +85,7 @@ function App() {
     {
       hasItem: hasIceCream,
       setHasItem: setHasIceCream,
-      itemPrice: 10,
+      itemPrice: iceCreamPrice,
 
       hasPurchaser: hasIceCreamPurchaser,
       setHasPurchaser: setHasIceCreamPurchaser,
