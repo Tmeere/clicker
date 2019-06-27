@@ -1,24 +1,25 @@
-import React, { useReducer, useState, useEffect } from "react";
-import { css } from "emotion";
-import C from "color";
+import React, {useReducer, useState, useEffect} from 'react';
+import {css} from 'emotion';
+import C from 'color';
 
-import Item from "./components/Item";
-import Purchaser from "./components/Purchaser";
+import Item from './components/Item';
+import Purchaser from './components/Purchaser';
 import Bonus from './components/Bonus';
 
-import useItem from "./hooks/useItem";
-import lemonadeImg from "./images/lemonade.jpg";
-import iceCreamImg from "./images/icecream.jpg";
-import pizzaImg from "./images/pizza.jpg";
-import bikeImg from "./images/bike.jpg";
-import carImg from "./images/car.jpg";
-import houseImg from "./images/house.jpg";
-import mansionImg from "./images/mansion.jpg";
-import islandImg from "./images/island.jpg";
+import useItem from './hooks/useItem';
+
+import lemonadeImg from './images/lemonade.jpg';
+import iceCreamImg from './images/icecream.jpg';
+import pizzaImg from './images/pizza.jpg';
+import bikeImg from './images/bike.jpg';
+import carImg from './images/car.jpg';
+import houseImg from './images/house.jpg';
+import mansionImg from './images/mansion.jpg';
+import islandImg from './images/island.jpg';
 
 const reducer = (money = 0, amount = 0) => money + amount;
 
-function App() {
+const App = () => {
   // We use useReducer to create the money variable.
   // We need to use useReducer rather than useState
   // because we have three items that use it, very
@@ -30,13 +31,13 @@ function App() {
   // With useReducer, we provide the reducer function
   // ourselves, so we can make sure nothing gets missed.
   const [money, setMoney] = useReducer(reducer, 10);
-  const [colour, setColour] = useState("white");
-  const [rearColour, setRearColour] = useState("white");
-  const [textColour, setTextColour] = useState("black");
-  const [highlightColour,setHighlightColour] = useState("#dddddd");
+  const [colour, setColour] = useState('#eee');
+  const [rearColour, setRearColour] = useState('#fff');
+  const [textColour, setTextColour] = useState('#000');
+  const [highlightColour, setHighlightColour] = useState('#dd');
 
   useEffect(() => {
-    fetch("https://api.noopschallenge.com/hexbot")
+    fetch('https://api.noopschallenge.com/hexbot')
       .then(response => response.json())
       .then(myJson => {
         const resultColour = myJson.colors[0].value;
@@ -44,102 +45,36 @@ function App() {
         const workingColour = new C(resultColour);
         setRearColour(workingColour.darken(0.2).hex());
         const isLight = workingColour.isLight();
-        setHighlightColour(workingColour.lighten(0.2).hex())
-        
-        setTextColour(isLight ? "black" : "white");
+        setHighlightColour(workingColour.lighten(0.2).hex());
+
+        setTextColour(isLight ? 'black' : 'white');
       });
   }, []);
 
-  const items = [];
+  let items = [];
 
   // React allows us to make our own hooks. This means
   // that I can reuse the item creation logic. This
   // is amazing when compared to old versions of React.
   //
-  // useItem wants the price of the item, and a function
-  // which updates the money value. It returns everything
-  // we need to create items.
-  const [
-    hasLemonade, // Lets us know if we have purchased the lemonade stand
-    setHasLemonade, // lets us say we have purchased the stand
-    lemonadePrice,
-    hasLemonadePurchaser, // Lets us know how many lemonade sellers we have
-    setHasLemonadePurchaser, // Lets us update the amount of lemonade sellers
-    lemonadeClickRate,
-    setLemonadeClickRate
-  ] = useItem(1, setMoney, 30, lemonadeImg, 10, 'Lemonade Stand', items);
-
-  const [
-    hasIceCream,
-    setHasIceCream,
-    iceCreamPrice,
-    hasIceCreamPurchaser,
-    setHasIceCreamPurchaser,
-    iceCreamClickRate,  
-    setIceCreamClickRate
-  ] = useItem(2.5, setMoney, 50, iceCreamImg, 20, 'Ice Cream Stand', items);
-
-  const [
-    hasPizza,
-    setHasPizza,
-    pizzaPrice,
-    hasPizzaPurchaser,
-    setHasPizzaPurchaser,
-    pizzaClickRate,
-    setPizzaClickRate,
-  ] = useItem(5, setMoney, 75, pizzaImg, 60, 'Pizza Stand', items);
-
-  const [
-    hasBike,
-    setHasBike,
-    bikePrice,
-    hasBikePurchaser,
-    setHasBikePurchaser,
-    bikeClickRate,
-    setBikeClickRate,
-  ] = useItem(10, setMoney, 100, bikeImg, 80, "Bike Rental", items);
-  
-
-  const [
-    hasCar,
-    setHasCar,
-    carPrice,
-    hasCarPurchaser,
-    setHasCarPurchaser,
-    carClickRate,
-    setCarClickRate,
-  ] = useItem(25, setMoney, 300, carImg, 200, "Car Rental", items);
-
-  const [
-    hasHouse,
-    setHasHouse,
-    housePrice,
-    hasHousePurchaser,
-    setHasHousePurchaser,
-    houseClickRate,
-    setHouseClickRate,
-  ] = useItem(50, setMoney, 500, houseImg, 400, "Real Estate", items);
-
-  const [
-    hasMansion,
-    setHasMansion,
-    mansionPrice,
-    hasMansionPurchaser,
-    setHasMansionPurchaser,
-    mansionClickRate,
-    setMansionClickRate,
-  ] = useItem(150, setMoney, 600, mansionImg, 500, "Improved Real Estate", items);
-
-  const [
-    hasIsland,
-    setHasIsland,
-    islandPrice,
-    hasIslandPurchaser,
-    setHasIslandPurchaser,
-    islandClickRate,
-    setIslandClickRate,
-  ] = useItem(300, setMoney, 800, islandImg, 650, "The Real Deal", items);
-
+  // I'm making sure to create a new copy of items
+  // each time we add to it, to make sure that our
+  // useItem calls don't mess with one another. This
+  // is a major source of bugs, when things use the
+  // same variable and don't know about one another.
+  //
+  // Facebook once had an issue with the notifications
+  // alert showing notifications when you didn't have
+  // any precisely for this reason. Their fix was to
+  // make React.
+  items = useItem('Lemonade Stand', lemonadeImg, items, setMoney, 1, 30, 10);
+  items = useItem('Ice Cream Stand', iceCreamImg, items, setMoney, 2.5, 50, 20);
+  items = useItem('Pizza Stand', pizzaImg, items, setMoney, 5, 75, 60);
+  items = useItem('Bike Rental', bikeImg, items, setMoney, 10, 100, 80);
+  items = useItem('Car Rental', carImg, items, setMoney, 25, 300, 200);
+  items = useItem('Real Estate', houseImg, items, setMoney, 50, 500, 400);
+  items = useItem('Mansions', mansionImg, items, setMoney, 150, 600, 500);
+  items = useItem('The Real Deal', islandImg, items, setMoney, 300, 800, 650);
 
   // Sell and purchase are functions which are ran after clicking
   // buttons and images. We use these to change the amount of money we have,
@@ -212,14 +147,15 @@ function App() {
                 />
               ))}
             </ul>
-            <div className={css`clear: both;`} />
+            <div
+              className={css`
+                clear: both;
+              `}
+            />
             <h2>Bonuses</h2>
             <ul>
               {items.map(item => (
-                <Bonus
-                  key={item.name}
-                  {...item}
-                />
+                <Bonus key={item.name} {...item} />
               ))}
             </ul>
           </div>
@@ -247,6 +183,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

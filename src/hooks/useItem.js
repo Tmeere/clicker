@@ -1,14 +1,22 @@
 import {useState} from 'react';
 import useInterval from 'use-interval';
 
-const useItem = (price = 0, setMoney = () => {}, purchaserPrice = 0, imageUrl = '', standPrice, name, items = []) => {
+const useItem = (
+  name = '',
+  imageUrl = '',
+  items = [],
+  setMoney = () => {},
+  price = 0,
+  purchaserPrice = 0,
+  standPrice = 0,
+) => {
   const [hasItem, setHasItem] = useState(0);
   const [hasPurchaser, setHasPurchaser] = useState(0);
   const [itemClickRate, setItemClickRate] = useState(1);
 
   useInterval(() => setMoney(hasPurchaser * price), 1000);
 
-  items.push({
+  return items.concat({
     hasItem,
     setHasItem,
     itemPrice: price,
@@ -22,10 +30,8 @@ const useItem = (price = 0, setMoney = () => {}, purchaserPrice = 0, imageUrl = 
     name,
 
     itemClickRate,
-    setItemClickRate
+    setItemClickRate,
   });
-
-  return [hasItem, setHasItem, price, hasPurchaser, setHasPurchaser, itemClickRate, setItemClickRate];
 };
 
 export default useItem;
