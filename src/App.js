@@ -32,23 +32,16 @@ const App = () => {
   // ourselves, so we can make sure nothing gets missed.
   const [money, setMoney] = useReducer(reducer, 10);
   const [colour, setColour] = useState('#eee');
-  const [rearColour, setRearColour] = useState('#fff');
-  const [textColour, setTextColour] = useState('#000');
-  const [highlightColour, setHighlightColour] = useState('#dd');
+
+  const workingColour = new C(colour);
+  const textColour = workingColour.isLight() ? '#000' : '#fff';
+  const lowlightColour = workingColour.darken(0.2).hex();
+  const highlightColour = workingColour.lighten(0.2).hex();
 
   useEffect(() => {
     fetch('https://api.noopschallenge.com/hexbot')
       .then(response => response.json())
-      .then(myJson => {
-        const resultColour = myJson.colors[0].value;
-        setColour(resultColour);
-        const workingColour = new C(resultColour);
-        setRearColour(workingColour.darken(0.2).hex());
-        const isLight = workingColour.isLight();
-        setHighlightColour(workingColour.lighten(0.2).hex());
-
-        setTextColour(isLight ? 'black' : 'white');
-      });
+      .then(myJson => setColour(myJson.colors[0].value));
   }, []);
 
   let items = [];
@@ -85,7 +78,7 @@ const App = () => {
 
   // func is the function that updates the value of the item we have purchased
   // value is the current amount of items we have, and amount is the price of the item.
-  const purchase = (func, value, amount) => {
+  const purchase = (func = () => {}, value = 0, amount = 0) => {
     func(value + 1);
     setMoney(amount);
   };
@@ -93,13 +86,13 @@ const App = () => {
   const rearStyles = css`
     width: 100vw;
     height: 100vh;
-    background: ${rearColour};
+    background: ${lowlightColour};
+    border: 20px solid ${lowlightColour};
   `;
 
   const bodyStyles = css`
     background: ${colour};
     color: ${textColour};
-    height: 100vh;
     border-radius: 40px;
     width: 800px;
     margin: 0 auto;
@@ -124,6 +117,10 @@ const App = () => {
     flex: 1;
   `;
 
+  const clearfixStyles = css`
+    clear: both;
+  `;
+
   // Build the elements using the values and functions we have created earlier
   return (
     <div className={rearStyles}>
@@ -142,16 +139,12 @@ const App = () => {
                   money={money}
                   sell={sell}
                   highlightColour={highlightColour}
-                  lowlightColour={rearColour}
+                  lowlightColour={lowlightColour}
                   {...item}
                 />
               ))}
             </ul>
-            <div
-              className={css`
-                clear: both;
-              `}
-            />
+            <div className={clearfixStyles} />
             <h2>Bonuses</h2>
             <ul>
               {items.map(item => (
@@ -173,7 +166,7 @@ const App = () => {
                   money={money}
                   purchase={purchase}
                   highlightColour={highlightColour}
-                  lowlightColour={rearColour}
+                  lowlightColour={lowlightColour}
                   {...item}
                 />
               ))}

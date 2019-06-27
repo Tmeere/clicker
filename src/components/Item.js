@@ -1,19 +1,19 @@
-import React from "react";
-import { css } from "emotion";
+import React from 'react';
+import {css} from 'emotion';
 
 const Item = ({
-  name,
-  hasItem,
-  setHasItem,
-  imageUrl,
-  itemPrice,
-  standPrice,
-  sell,
-  purchase,
-  money,
-  highlightColour,
-  lowlightColour,
-  itemClickRate
+  name = '',
+  hasItem = 0,
+  setHasItem = () => {},
+  imageUrl = '',
+  itemPrice = 0,
+  standPrice = 0,
+  sell = () => {},
+  purchase = () => {},
+  money = 0,
+  highlightColour = '',
+  lowlightColour = '',
+  itemClickRate = 1,
 }) => {
   const itemStyles = css`
     width: 100px;
@@ -29,7 +29,6 @@ const Item = ({
 
     ${hasItem === 0 &&
       `
-        filter: url(~"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
         -webkit-filter: grayscale(100%);
         -moz-filter: grayscale(100%);
         -ms-filter: grayscale(100%);
@@ -43,9 +42,9 @@ const Item = ({
     background: ${highlightColour};
     border: 1px solid ${lowlightColour};
     width: 100px;
-    font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto",
-      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-      "Helvetica Neue", sans-serif;
+    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
   `;
 
   const handleButtonClick = () => purchase(setHasItem, hasItem, -standPrice);

@@ -2,38 +2,48 @@ import React from 'react';
 import {css} from 'emotion';
 
 const Purchaser = ({
-  name,
-  hasItem,
-  money,
-  purchaserPrice,
-  setHasPurchaser,
-  hasPurchaser,
-  purchase,
-  highlightColour,
-  lowlightColour
-}) => (
-  <li>
-    <button
-      className={css`
-        font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
-          'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-          'Helvetica Neue', sans-serif;
-        background: ${highlightColour};
-        border: 1px solid ${lowlightColour};
-        margin-bottom: 20px !important;
-        width: 250px;
-        display: block;
+  name = '',
+  hasItem = 0,
+  money = 0,
+  purchaserPrice = 0,
+  setHasPurchaser = () => {},
+  hasPurchaser = 0,
+  purchase = () => {},
+  highlightColour = '',
+  lowlightColour = '',
+}) => {
+  const buttonStyles = css`
+    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+    background: ${highlightColour};
+    border: 1px solid ${lowlightColour};
+    margin-bottom: 20px !important;
+    width: 250px;
+    display: block;
 
-        &:disabled {
-          background: #ddd;
-          border: 1px solid #bbb;
-        }
-      `}
-      disabled={money < purchaserPrice || hasItem === 0}
-      onClick={() => purchase(setHasPurchaser, hasPurchaser, -purchaserPrice)}>
-      Hire {name} Seller
-    </button>
-  </li>
-);
+    &:disabled {
+      background: #ddd;
+      border: 1px solid #bbb;
+    }
+  `;
+
+  const disabled = money < purchaserPrice || hasItem === 0;
+
+  const handleClick = () => {
+    purchase(setHasPurchaser, hasPurchaser, -purchaserPrice);
+  };
+
+  return (
+    <li>
+      <button
+        className={buttonStyles}
+        disabled={disabled}
+        onClick={handleClick}>
+        Hire {name} Seller
+      </button>
+    </li>
+  );
+};
 
 export default Purchaser;
