@@ -38,7 +38,12 @@ const Item = ({
             filter: gray;
           `}
       `}
-      onClick={() => hasItem > 0 && sell(itemPrice)}
+      onClick={() => {
+        if (hasItem > 0) return sell(itemPrice);
+        if (hasItem === 0 && money >= standPrice) {
+          return purchase(setHasItem, hasItem, -standPrice);
+        }
+      }}
     />
 
     {money >= standPrice && !hasItem && (

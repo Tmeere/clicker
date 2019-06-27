@@ -17,7 +17,7 @@ const Purchaser = ({
           'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
           'Helvetica Neue', sans-serif;
         background: #81bd57;
-        border: 0;
+        border: 1px solid #71ad47;
         margin-bottom: 20px !important;
         width: 250px;
         display: block;
