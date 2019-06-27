@@ -17,6 +17,8 @@ const Item = ({
       position: relative;
       width: 200px;
       height: 200px;
+      margin-right: 20px;
+      margin-bottom: 20px;
       float: left;
     `}>
     <img
@@ -47,9 +49,12 @@ const Item = ({
           margin-top: -25px;
           z-index: 2;
           height: 50px;
-          background: green;
+          background: #81bd57;
           border: 0;
           width: 200px;
+          font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+            'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+            'Helvetica Neue', sans-serif;
         `}
         onClick={() => purchase(setHasItem, hasItem, -standPrice)}>
         Purchase {name}

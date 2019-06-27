@@ -122,12 +122,18 @@ function App() {
   // Build the elements using the values and functions we have created earlier
   return (
     <>
-      <header>
+      <header
+        className={css`
+          margin-left: 20px;
+          margin-top: 20px;
+        `}>
         <h1>£{money}</h1>
       </header>
       <main
         className={css`
           display: flex;
+          margin-left: 20px;
+          margin-right: 20px;
         `}>
         <div
           className={css`
