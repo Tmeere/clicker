@@ -13,7 +13,7 @@ const Purchaser = ({
     <button
       disabled={money < purchaserPrice || hasItem === 0}
       onClick={() => purchase(setHasPurchaser, hasPurchaser, -purchaserPrice)}>
-      Purchase {name} Buyer
+      Hire {name} Seller
     </button>
   </li>
 );

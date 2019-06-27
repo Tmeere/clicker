@@ -133,7 +133,7 @@ function App() {
           className={css`
             flex: 2;
           `}>
-          <h2>Items</h2>
+          <h2>Merchandise</h2>
           <ul>
             {items.map(item => (
               <Item
@@ -152,6 +152,10 @@ function App() {
             flex: 1;
           `}>
           <h2>Sellers</h2>
+          <p>
+            Sellers will sell items for you. They are not as efficient as you,
+            but you get to put your feet up.
+          </p>
           <ul>
             {items.map(item => (
               <Purchaser
