@@ -9,6 +9,8 @@ const Purchaser = ({
   setHasPurchaser,
   hasPurchaser,
   purchase,
+  highlightColour,
+  lowlightColour
 }) => (
   <li>
     <button
@@ -16,8 +18,8 @@ const Purchaser = ({
         font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
           'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
           'Helvetica Neue', sans-serif;
-        background: #81bd57;
-        border: 1px solid #71ad47;
+        background: ${highlightColour};
+        border: 1px solid ${lowlightColour};
         margin-bottom: 20px !important;
         width: 250px;
         display: block;

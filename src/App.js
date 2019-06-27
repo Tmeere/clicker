@@ -4,12 +4,17 @@ import C from "color";
 
 import Item from "./components/Item";
 import Purchaser from "./components/Purchaser";
+import Bonus from './components/Bonus';
 
 import useItem from "./hooks/useItem";
-
 import lemonadeImg from "./images/lemonade.jpg";
 import iceCreamImg from "./images/icecream.jpg";
 import pizzaImg from "./images/pizza.jpg";
+import bikeImg from "./images/bike.jpg";
+import carImg from "./images/car.jpg";
+import houseImg from "./images/house.jpg";
+import mansionImg from "./images/mansion.jpg";
+import islandImg from "./images/island.jpg";
 
 const reducer = (money = 0, amount = 0) => money + amount;
 
@@ -24,9 +29,11 @@ function App() {
   //
   // With useReducer, we provide the reducer function
   // ourselves, so we can make sure nothing gets missed.
-  const [money, setMoney] = useReducer(reducer, 100);
+  const [money, setMoney] = useReducer(reducer, 10);
   const [colour, setColour] = useState("white");
+  const [rearColour, setRearColour] = useState("white");
   const [textColour, setTextColour] = useState("black");
+  const [highlightColour,setHighlightColour] = useState("#dddddd");
 
   useEffect(() => {
     fetch("https://api.noopschallenge.com/hexbot")
@@ -34,11 +41,16 @@ function App() {
       .then(myJson => {
         const resultColour = myJson.colors[0].value;
         setColour(resultColour);
-        const isLight = new C(resultColour).isLight();
-
+        const workingColour = new C(resultColour);
+        setRearColour(workingColour.darken(0.2).hex());
+        const isLight = workingColour.isLight();
+        setHighlightColour(workingColour.lighten(0.2).hex())
+        
         setTextColour(isLight ? "black" : "white");
       });
-  }, [money]);
+  }, []);
+
+  const items = [];
 
   // React allows us to make our own hooks. This means
   // that I can reuse the item creation logic. This
@@ -52,79 +64,88 @@ function App() {
     setHasLemonade, // lets us say we have purchased the stand
     lemonadePrice,
     hasLemonadePurchaser, // Lets us know how many lemonade sellers we have
-    setHasLemonadePurchaser // Lets us update the amount of lemonade sellers
-  ] = useItem(3, setMoney);
+    setHasLemonadePurchaser, // Lets us update the amount of lemonade sellers
+    lemonadeClickRate,
+    setLemonadeClickRate
+  ] = useItem(1, setMoney, 30, lemonadeImg, 10, 'Lemonade Stand', items);
 
   const [
     hasIceCream,
     setHasIceCream,
     iceCreamPrice,
     hasIceCreamPurchaser,
-    setHasIceCreamPurchaser
-  ] = useItem(10, setMoney);
+    setHasIceCreamPurchaser,
+    iceCreamClickRate,  
+    setIceCreamClickRate
+  ] = useItem(2.5, setMoney, 50, iceCreamImg, 20, 'Ice Cream Stand', items);
 
   const [
     hasPizza,
     setHasPizza,
     pizzaPrice,
     hasPizzaPurchaser,
-    setHasPizzaPurchaser
-  ] = useItem(20, setMoney);
+    setHasPizzaPurchaser,
+    pizzaClickRate,
+    setPizzaClickRate,
+  ] = useItem(5, setMoney, 75, pizzaImg, 60, 'Pizza Stand', items);
 
-  // One of the most simple ways to avoid bugs in your code
-  // is to make sure that the data you are working with is
-  // exactly how you want it, as soon as you can. Here
-  // we are creating a list of items which have everything
-  // they need. By getting it right here, we can avoid bugs
-  // later. By making a list of items, we can avoid having
-  // to write tedious code for each item later.
-  const items = [
-    {
-      hasItem: hasLemonade,
-      setHasItem: setHasLemonade,
-      itemPrice: lemonadePrice,
+  const [
+    hasBike,
+    setHasBike,
+    bikePrice,
+    hasBikePurchaser,
+    setHasBikePurchaser,
+    bikeClickRate,
+    setBikeClickRate,
+  ] = useItem(10, setMoney, 100, bikeImg, 80, "Bike Rental", items);
+  
 
-      hasPurchaser: hasLemonadePurchaser,
-      setHasPurchaser: setHasLemonadePurchaser,
-      purchaserPrice: 50,
+  const [
+    hasCar,
+    setHasCar,
+    carPrice,
+    hasCarPurchaser,
+    setHasCarPurchaser,
+    carClickRate,
+    setCarClickRate,
+  ] = useItem(25, setMoney, 300, carImg, 200, "Car Rental", items);
 
-      imageUrl: lemonadeImg,
-      standPrice: 100,
-      name: "Lemonade Stand"
-    },
-    {
-      hasItem: hasIceCream,
-      setHasItem: setHasIceCream,
-      itemPrice: iceCreamPrice,
+  const [
+    hasHouse,
+    setHasHouse,
+    housePrice,
+    hasHousePurchaser,
+    setHasHousePurchaser,
+    houseClickRate,
+    setHouseClickRate,
+  ] = useItem(50, setMoney, 500, houseImg, 400, "Real Estate", items);
 
-      hasPurchaser: hasIceCreamPurchaser,
-      setHasPurchaser: setHasIceCreamPurchaser,
-      purchaserPrice: 75,
+  const [
+    hasMansion,
+    setHasMansion,
+    mansionPrice,
+    hasMansionPurchaser,
+    setHasMansionPurchaser,
+    mansionClickRate,
+    setMansionClickRate,
+  ] = useItem(150, setMoney, 600, mansionImg, 500, "Improved Real Estate", items);
 
-      imageUrl: iceCreamImg,
-      standPrice: 150,
-      name: "Ice Cream Stand"
-    },
-    {
-      hasItem: hasPizza,
-      setHasItem: setHasPizza,
-      itemPrice: pizzaPrice,
+  const [
+    hasIsland,
+    setHasIsland,
+    islandPrice,
+    hasIslandPurchaser,
+    setHasIslandPurchaser,
+    islandClickRate,
+    setIslandClickRate,
+  ] = useItem(300, setMoney, 800, islandImg, 650, "The Real Deal", items);
 
-      hasPurchaser: hasPizzaPurchaser,
-      setHasPurchaser: setHasPizzaPurchaser,
-      purchaserPrice: 200,
-
-      imageUrl: pizzaImg,
-      standPrice: 400,
-      name: "Pizza Shack"
-    }
-  ];
 
   // Sell and purchase are functions which are ran after clicking
   // buttons and images. We use these to change the amount of money we have,
   // and in the case of purchase, change the amount of a stand or seller we have.
-  const sell = (amount = 1) => {
-    setMoney(amount);
+  const sell = (amount = 1, clickRate = 1) => {
+    setMoney(amount * clickRate);
   };
 
   // func is the function that updates the value of the item we have purchased
@@ -134,10 +155,19 @@ function App() {
     setMoney(amount);
   };
 
+  const rearStyles = css`
+    width: 100vw;
+    height: 100vh;
+    background: ${rearColour};
+  `;
+
   const bodyStyles = css`
     background: ${colour};
     color: ${textColour};
     height: 100vh;
+    border-radius: 40px;
+    width: 800px;
+    margin: 0 auto;
   `;
 
   const headerStyles = css`
@@ -161,44 +191,60 @@ function App() {
 
   // Build the elements using the values and functions we have created earlier
   return (
-    <div className={bodyStyles}>
-      <header className={headerStyles}>
-        <h1>£{money}</h1>
-      </header>
-      <main className={mainStyles}>
-        <div className={merchandiseStyles}>
-          <h2>Merchandise</h2>
-          <ul>
-            {items.map(item => (
-              <Item
-                key={item.name}
-                purchase={purchase}
-                money={money}
-                sell={sell}
-                {...item}
-              />
-            ))}
-          </ul>
-        </div>
+    <div className={rearStyles}>
+      <div className={bodyStyles}>
+        <header className={headerStyles}>
+          <h1>£{money}</h1>
+        </header>
+        <main className={mainStyles}>
+          <div className={merchandiseStyles}>
+            <h2>Merchandise</h2>
+            <ul>
+              {items.map(item => (
+                <Item
+                  key={item.name}
+                  purchase={purchase}
+                  money={money}
+                  sell={sell}
+                  highlightColour={highlightColour}
+                  lowlightColour={rearColour}
+                  {...item}
+                />
+              ))}
+            </ul>
+            <div className={css`clear: both;`} />
+            <h2>Bonuses</h2>
+            <ul>
+              {items.map(item => (
+                <Bonus
+                  key={item.name}
+                  {...item}
+                />
+              ))}
+            </ul>
+          </div>
 
-        <div className={sellerStyles}>
-          <h2>Sellers</h2>
-          <p>
-            Sellers will sell items for you. They are not as efficient as you,
-            but you get to put your feet up.
-          </p>
-          <ul>
-            {items.map(item => (
-              <Purchaser
-                key={item.name}
-                money={money}
-                purchase={purchase}
-                {...item}
-              />
-            ))}
-          </ul>
-        </div>
-      </main>
+          <div className={sellerStyles}>
+            <h2>Sellers</h2>
+            <p>
+              Sellers will sell items for you. They are not as efficient as you,
+              but you get to put your feet up.
+            </p>
+            <ul>
+              {items.map(item => (
+                <Purchaser
+                  key={item.name}
+                  money={money}
+                  purchase={purchase}
+                  highlightColour={highlightColour}
+                  lowlightColour={rearColour}
+                  {...item}
+                />
+              ))}
+            </ul>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

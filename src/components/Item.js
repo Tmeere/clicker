@@ -10,21 +10,22 @@ const Item = ({
   standPrice,
   sell,
   purchase,
-  money
+  money,
+  highlightColour,
+  lowlightColour,
+  itemClickRate
 }) => {
   const itemStyles = css`
-    position: relative;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     margin-right: 20px;
     margin-bottom: 20px;
     float: left;
   `;
 
   const imageStyles = css`
-    position: absolute;
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
 
     ${hasItem === 0 &&
       `
@@ -38,14 +39,10 @@ const Item = ({
   `;
 
   const buttonStyles = css`
-    position: absolute;
-    top: 50%;
-    margin-top: -25px;
-    z-index: 2;
-    height: 50px;
-    background: #81bd57;
-    border: 0;
-    width: 200px;
+    height: 100px;
+    background: ${highlightColour};
+    border: 1px solid ${lowlightColour};
+    width: 100px;
     font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto",
       "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
       "Helvetica Neue", sans-serif;
@@ -54,22 +51,26 @@ const Item = ({
   const handleButtonClick = () => purchase(setHasItem, hasItem, -standPrice);
 
   const handleImageClick = () => {
-    if (hasItem > 0) return sell(itemPrice);
+    if (hasItem > 0) return sell(itemPrice, itemClickRate);
     if (hasItem === 0 && money >= standPrice) {
       handleButtonClick();
     }
   };
 
+  const shouldShowButton = money >= standPrice && !hasItem;
+
   return (
     <li className={itemStyles}>
-      <img
-        src={imageUrl}
-        alt={name}
-        className={imageStyles}
-        onClick={handleImageClick}
-      />
+      {!shouldShowButton && (
+        <img
+          src={imageUrl}
+          alt={name}
+          className={imageStyles}
+          onClick={handleImageClick}
+        />
+      )}
 
-      {money >= standPrice && !hasItem && (
+      {shouldShowButton && (
         <button className={buttonStyles} onClick={handleButtonClick}>
           Purchase {name}
         </button>
