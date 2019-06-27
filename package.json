@@ -5,6 +5,7 @@
   "homepage": "http://tmeere.github.io/clicker",
   "dependencies": {
     "@emotion/core": "^10.0.14",
+    "color": "^3.1.2",
     "emotion": "^10.0.14",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

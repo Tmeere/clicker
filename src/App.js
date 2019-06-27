@@ -1,14 +1,15 @@
-import React, {useReducer} from 'react';
-import {css} from 'emotion';
+import React, { useReducer, useState, useEffect } from "react";
+import { css } from "emotion";
+import C from "color";
 
-import Item from './components/Item';
-import Purchaser from './components/Purchaser';
+import Item from "./components/Item";
+import Purchaser from "./components/Purchaser";
 
-import useItem from './hooks/useItem';
+import useItem from "./hooks/useItem";
 
-import lemonadeImg from './images/lemonade.jpg';
-import iceCreamImg from './images/icecream.jpg';
-import pizzaImg from './images/pizza.jpg';
+import lemonadeImg from "./images/lemonade.jpg";
+import iceCreamImg from "./images/icecream.jpg";
+import pizzaImg from "./images/pizza.jpg";
 
 const reducer = (money = 0, amount = 0) => money + amount;
 
@@ -24,6 +25,20 @@ function App() {
   // With useReducer, we provide the reducer function
   // ourselves, so we can make sure nothing gets missed.
   const [money, setMoney] = useReducer(reducer, 100);
+  const [colour, setColour] = useState("white");
+  const [textColour, setTextColour] = useState("black");
+
+  useEffect(() => {
+    fetch("https://api.noopschallenge.com/hexbot")
+      .then(response => response.json())
+      .then(myJson => {
+        const resultColour = myJson.colors[0].value;
+        setColour(resultColour);
+        const isLight = new C(resultColour).isLight();
+
+        setTextColour(isLight ? "black" : "white");
+      });
+  }, [money]);
 
   // React allows us to make our own hooks. This means
   // that I can reuse the item creation logic. This
@@ -37,7 +52,7 @@ function App() {
     setHasLemonade, // lets us say we have purchased the stand
     lemonadePrice,
     hasLemonadePurchaser, // Lets us know how many lemonade sellers we have
-    setHasLemonadePurchaser, // Lets us update the amount of lemonade sellers
+    setHasLemonadePurchaser // Lets us update the amount of lemonade sellers
   ] = useItem(3, setMoney);
 
   const [
@@ -45,7 +60,7 @@ function App() {
     setHasIceCream,
     iceCreamPrice,
     hasIceCreamPurchaser,
-    setHasIceCreamPurchaser,
+    setHasIceCreamPurchaser
   ] = useItem(10, setMoney);
 
   const [
@@ -53,7 +68,7 @@ function App() {
     setHasPizza,
     pizzaPrice,
     hasPizzaPurchaser,
-    setHasPizzaPurchaser,
+    setHasPizzaPurchaser
   ] = useItem(20, setMoney);
 
   // One of the most simple ways to avoid bugs in your code
@@ -75,7 +90,7 @@ function App() {
 
       imageUrl: lemonadeImg,
       standPrice: 100,
-      name: 'Lemonade Stand',
+      name: "Lemonade Stand"
     },
     {
       hasItem: hasIceCream,
@@ -88,7 +103,7 @@ function App() {
 
       imageUrl: iceCreamImg,
       standPrice: 150,
-      name: 'Ice Cream Stand',
+      name: "Ice Cream Stand"
     },
     {
       hasItem: hasPizza,
@@ -101,8 +116,8 @@ function App() {
 
       imageUrl: pizzaImg,
       standPrice: 400,
-      name: 'Pizza Shack',
-    },
+      name: "Pizza Shack"
+    }
   ];
 
   // Sell and purchase are functions which are ran after clicking
@@ -119,26 +134,39 @@ function App() {
     setMoney(amount);
   };
 
+  const bodyStyles = css`
+    background: ${colour};
+    color: ${textColour};
+    height: 100vh;
+  `;
+
+  const headerStyles = css`
+    margin-left: 20px;
+    padding-top: 20px;
+  `;
+
+  const mainStyles = css`
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+  `;
+
+  const merchandiseStyles = css`
+    flex: 2;
+  `;
+
+  const sellerStyles = css`
+    flex: 1;
+  `;
+
   // Build the elements using the values and functions we have created earlier
   return (
-    <>
-      <header
-        className={css`
-          margin-left: 20px;
-          margin-top: 20px;
-        `}>
+    <div className={bodyStyles}>
+      <header className={headerStyles}>
         <h1>£{money}</h1>
       </header>
-      <main
-        className={css`
-          display: flex;
-          margin-left: 20px;
-          margin-right: 20px;
-        `}>
-        <div
-          className={css`
-            flex: 2;
-          `}>
+      <main className={mainStyles}>
+        <div className={merchandiseStyles}>
           <h2>Merchandise</h2>
           <ul>
             {items.map(item => (
@@ -153,10 +181,7 @@ function App() {
           </ul>
         </div>
 
-        <div
-          className={css`
-            flex: 1;
-          `}>
+        <div className={sellerStyles}>
           <h2>Sellers</h2>
           <p>
             Sellers will sell items for you. They are not as efficient as you,
@@ -174,7 +199,7 @@ function App() {
           </ul>
         </div>
       </main>
-    </>
+    </div>
   );
 }
 
