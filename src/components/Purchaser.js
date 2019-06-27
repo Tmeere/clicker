@@ -27,7 +27,7 @@ const Purchaser = ({
     &:disabled {
       background: #ddd;
       border: 1px solid #bbb;
-      color: black;
+      color: #bbb;
     }
   `;
 
