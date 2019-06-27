@@ -140,6 +140,7 @@ const App = () => {
                   sell={sell}
                   highlightColour={highlightColour}
                   lowlightColour={lowlightColour}
+                  textColour={textColour}
                   {...item}
                 />
               ))}
@@ -167,6 +168,7 @@ const App = () => {
                   purchase={purchase}
                   highlightColour={highlightColour}
                   lowlightColour={lowlightColour}
+                  textColour={textColour}
                   {...item}
                 />
               ))}

@@ -13,6 +13,7 @@ const Item = ({
   money = 0,
   highlightColour = '',
   lowlightColour = '',
+  textColour = '',
   itemClickRate = 1,
 }) => {
   const itemStyles = css`
@@ -42,6 +43,7 @@ const Item = ({
     background: ${highlightColour};
     border: 1px solid ${lowlightColour};
     width: 100px;
+    color: ${textColour};
     font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
       'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;

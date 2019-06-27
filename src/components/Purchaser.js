@@ -11,6 +11,7 @@ const Purchaser = ({
   purchase = () => {},
   highlightColour = '',
   lowlightColour = '',
+  textColour = '',
 }) => {
   const buttonStyles = css`
     font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
@@ -21,10 +22,12 @@ const Purchaser = ({
     margin-bottom: 20px !important;
     width: 250px;
     display: block;
+    color: ${textColour};
 
     &:disabled {
       background: #ddd;
       border: 1px solid #bbb;
+      color: black;
     }
   `;
 
