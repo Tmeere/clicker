@@ -10,14 +10,11 @@ const Purchaser = ({
   purchase,
 }) => (
   <li>
-    {hasItem > 0 && money >= purchaserPrice && (
-      <button
-        onClick={() =>
-          purchase(setHasPurchaser, hasPurchaser, -purchaserPrice)
-        }>
-        Purchase {name} Buyer
-      </button>
-    )}
+    <button
+      disabled={money < purchaserPrice || hasItem === 0}
+      onClick={() => purchase(setHasPurchaser, hasPurchaser, -purchaserPrice)}>
+      Purchase {name} Buyer
+    </button>
   </li>
 );
 

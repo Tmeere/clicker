@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-import {ClassNames} from '@emotion/core';
+import {css} from 'emotion';
 
 import Item from './components/Item';
 import Purchaser from './components/Purchaser';
@@ -121,52 +121,50 @@ function App() {
 
   // Build the elements using the values and functions we have created earlier
   return (
-    <ClassNames>
-      {({css}) => (
-        <>
-          <header>
-            <h1>£{money}</h1>
-          </header>
-          <main
-            className={css`
-              display: flex;
-            `}>
-            <div
-              className={css`
-                flex: 2;
-              `}>
-              <ul>
-                {items.map(item => (
-                  <Item
-                    key={item.name}
-                    purchase={purchase}
-                    money={money}
-                    sell={sell}
-                    {...item}
-                  />
-                ))}
-              </ul>
-            </div>
+    <>
+      <header>
+        <h1>£{money}</h1>
+      </header>
+      <main
+        className={css`
+          display: flex;
+        `}>
+        <div
+          className={css`
+            flex: 2;
+          `}>
+          <h2>Items</h2>
+          <ul>
+            {items.map(item => (
+              <Item
+                key={item.name}
+                purchase={purchase}
+                money={money}
+                sell={sell}
+                {...item}
+              />
+            ))}
+          </ul>
+        </div>
 
-            <div
-              className={css`
-                flex: 1;
-              `}>
-              <ul>
-                {items.map(item => (
-                  <Purchaser
-                    key={item.name}
-                    money={money}
-                    purchase={purchase}
-                    {...item}
-                  />
-                ))}
-              </ul>
-            </div>
-          </main>
-        </>
-      )}
-    </ClassNames>
+        <div
+          className={css`
+            flex: 1;
+          `}>
+          <h2>Sellers</h2>
+          <ul>
+            {items.map(item => (
+              <Purchaser
+                key={item.name}
+                money={money}
+                purchase={purchase}
+                {...item}
+              />
+            ))}
+          </ul>
+        </div>
+      </main>
+    </>
   );
 }
 
