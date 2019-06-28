@@ -1,20 +1,22 @@
-import React from 'react';
-import {css} from 'emotion';
+import React from "react";
+import { css } from "emotion";
+
+import Button from "./Button";
 
 const Item = ({
-  name = '',
+  name = "",
   hasItem = 0,
   setHasItem = () => {},
-  imageUrl = '',
+  imageUrl = "",
   itemPrice = 0,
   standPrice = 0,
   sell = () => {},
   purchase = () => {},
   money = 0,
-  highlightColour = '',
-  lowlightColour = '',
-  textColour = '',
-  itemClickRate = 1,
+  highlightColour = "",
+  lowlightColour = "",
+  textColour = "",
+  itemClickRate = 1
 }) => {
   const itemStyles = css`
     width: 100px;
@@ -36,18 +38,6 @@ const Item = ({
         -o-filter: grayscale(100%);
         filter: gray;
       `}
-  `;
-
-  const buttonStyles = css`
-    height: 100px;
-    background: ${highlightColour};
-    border: 1px solid ${lowlightColour};
-    width: 100px;
-    color: ${textColour};
-    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
-      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-      'Helvetica Neue', sans-serif;
-    transition: background 0.3s, border 0.3s;
   `;
 
   const handleButtonClick = () => purchase(setHasItem, hasItem, -standPrice);
@@ -73,9 +63,13 @@ const Item = ({
       )}
 
       {shouldShowButton && (
-        <button className={buttonStyles} onClick={handleButtonClick}>
-          Purchase {name}
-        </button>
+        <Button
+          text={name}
+          handleClick={handleButtonClick}
+          highlightColour={highlightColour}
+          lowlightColour={lowlightColour}
+          textColour={textColour}
+        />
       )}
     </li>
   );

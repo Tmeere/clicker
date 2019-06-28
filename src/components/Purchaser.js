@@ -1,17 +1,18 @@
-import React from 'react';
-import {css} from 'emotion';
+import React from "react";
+import { css } from "emotion";
+import Button from "./Button";
 
 const Purchaser = ({
-  name = '',
+  name = "",
   hasItem = 0,
   money = 0,
   purchaserPrice = 0,
   setHasPurchaser = () => {},
   hasPurchaser = 0,
   purchase = () => {},
-  highlightColour = '',
-  lowlightColour = '',
-  textColour = '',
+  highlightColour = "",
+  lowlightColour = "",
+  textColour = ""
 }) => {
   const buttonStyles = css`
     font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
@@ -34,18 +35,21 @@ const Purchaser = ({
 
   const disabled = money < purchaserPrice || hasItem === 0;
 
-  const handleClick = () => {
+  const handleButtonClick = () => {
     purchase(setHasPurchaser, hasPurchaser, -purchaserPrice);
   };
 
   return (
     <li>
-      <button
-        className={buttonStyles}
+      <Button
+        text={name}
+        handleClick={handleButtonClick}
+        highlightColour={highlightColour}
+        lowlightColour={lowlightColour}
+        textColour={textColour}
         disabled={disabled}
-        onClick={handleClick}>
-        Hire {name} Seller
-      </button>
+        fullWidth={true}
+      />
     </li>
   );
 };

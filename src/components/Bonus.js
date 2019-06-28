@@ -1,12 +1,38 @@
 import React from "react";
-
-const Bonus = ({ setItemClickRate = () => {}, itemClickRate = 1, name = '' }) => {
+import Button from "./Button";
+const Bonus = ({
+  setItemClickRate = () => {},
+  itemClickRate = 1,
+  bonusName = "",
+  highlightColour = "",
+  lowlightColour = "",
+  textColour = "",
+  bonusPrice = 0,
+  hasItem = false,
+  money = 0,
+  hasBonus = 0,
+  setHasBonus = () => {}
+}) => {
   const handleClick = () => {
-      console.log(itemClickRate);
     setItemClickRate(itemClickRate + 1);
+    setHasBonus(hasBonus + 1);
   };
 
-  return <button onClick={handleClick}>{name}</button>;
+  const disabled = !hasItem || money < bonusPrice;
+
+  if (hasBonus > 0) return null;
+
+  return (
+    <Button
+      handleClick={handleClick}
+      text={bonusName}
+      highlightColour={highlightColour}
+      lowlightColour={lowlightColour}
+      textColour={textColour}
+      disabled={disabled}
+      fullWidth={true}
+    />
+  );
 };
 
 export default Bonus;
