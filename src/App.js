@@ -88,6 +88,7 @@ const App = () => {
     height: 100vh;
     background: ${lowlightColour};
     border: 20px solid ${lowlightColour};
+    transition: background 0.3s, border 0.3s;
   `;
 
   const bodyStyles = css`
@@ -96,6 +97,7 @@ const App = () => {
     border-radius: 40px;
     width: 800px;
     margin: 0 auto;
+    transition: background: 0.3s, color: 0.3s;
   `;
 
   const headerStyles = css`

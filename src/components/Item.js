@@ -47,6 +47,7 @@ const Item = ({
     font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
       'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
+    transition: background 0.3s, border 0.3s;
   `;
 
   const handleButtonClick = () => purchase(setHasItem, hasItem, -standPrice);

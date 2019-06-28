@@ -23,6 +23,7 @@ const Purchaser = ({
     width: 250px;
     display: block;
     color: ${textColour};
+    transition: color 0.3s, background: 0.3s, border 0.3s;
 
     &:disabled {
       background: #ddd;
