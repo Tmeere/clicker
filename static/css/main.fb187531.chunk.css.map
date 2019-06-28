@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,GACE,eAGF,CAEA,MAJE,QAAS,CACT,SAMF","file":"main.fb187531.chunk.css","sourcesContent":["li {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nul {\r\n  margin: 0;\r\n  padding: 0;\r\n}"]}
