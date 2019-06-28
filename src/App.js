@@ -44,8 +44,6 @@ const App = () => {
       .then(myJson => setColour(myJson.colors[0].value));
   }, []);
 
-  let items = [];
-
   // React allows us to make our own hooks. This means
   // that I can reuse the item creation logic. This
   // is amazing when compared to old versions of React.
@@ -60,102 +58,96 @@ const App = () => {
   // alert showing notifications when you didn't have
   // any precisely for this reason. Their fix was to
   // make React.
-  items = useItem(
-    "Lemonade Stand",
-    "Hire Lemonade Squeezer",
-    "2x Boost Lemonade",
-    lemonadeImg,
-    items,
-    setMoney,
-    1,
-    30,
-    10,
-    100
-  );
-  items = useItem(
-    "Ice Cream Stand",
-    "Hire Ice Cream Makers",
-    "2x Boost Ice Cream",
-    iceCreamImg,
-    items,
-    setMoney,
-    2.5,
-    50,
-    20,
-    300
-  );
-  items = useItem(
-    "Pizza Stand",
-    "Hire Pizza Makers",
-    "2x Boost Pizza",
-    pizzaImg,
-    items,
-    setMoney,
-    5,
-    75,
-    60,
-    550,
-  );
-  items = useItem(
-    "Bike Rental",
-    "Hire Bike Rental",
-    "2x Boost Bike Rental",
-    bikeImg,
-    items,
-    setMoney,
-    10,
-    100,
-    80,
-    750
-  );
-  items = useItem(
-    "Car Rental",
-    "Hire Car Rental",
-    "2x Boost Car Rental",
-    carImg,
-    items,
-    setMoney,
-    25,
-    300,
-    200,
-    850
-  );
-  items = useItem(
-    "Real Estate",
-    "Hire Real Estate",
-    "2x House Boost",
-    houseImg,
-    items,
-    setMoney,
-    50,
-    500,
-    400,
-    1000
-  );
-  items = useItem(
-    "Developed Real Estate",
-    "Purchase More land ",
-    "2x Mansion Boost",
-    mansionImg,
-    items,
-    setMoney,
-    150,
-    600,
-    500,
-    2000
-  );
-  items = useItem(
-    "The Real Deal",
-    "Upgrade Real Deal",
-    "2x Real Deal Boost",
-    islandImg,
-    items,
-    setMoney,
-    300,
-    800,
-    650,
-    3000
-  );
+  const items = [
+    useItem(
+      "Lemonade Stand",
+      "Hire Lemonade Squeezer",
+      "2x Boost Lemonade",
+      lemonadeImg,
+      setMoney,
+      1,
+      30,
+      10,
+      100
+    ),
+    useItem(
+      "Ice Cream Stand",
+      "Hire Ice Cream Makers",
+      "2x Boost Ice Cream",
+      iceCreamImg,
+      setMoney,
+      2.5,
+      50,
+      20,
+      300
+    ),
+    useItem(
+      "Pizza Stand",
+      "Hire Pizza Makers",
+      "2x Boost Pizza",
+      pizzaImg,
+      setMoney,
+      5,
+      75,
+      60,
+      550
+    ),
+    useItem(
+      "Bike Rental",
+      "Hire Bike Rental",
+      "2x Boost Bike Rental",
+      bikeImg,
+      setMoney,
+      10,
+      100,
+      80,
+      750
+    ),
+    useItem(
+      "Car Rental",
+      "Hire Car Rental",
+      "2x Boost Car Rental",
+      carImg,
+      setMoney,
+      25,
+      300,
+      200,
+      850
+    ),
+    useItem(
+      "Real Estate",
+      "Hire Real Estate",
+      "2x House Boost",
+      houseImg,
+      setMoney,
+      50,
+      500,
+      400,
+      1000
+    ),
+    useItem(
+      "Developed Real Estate",
+      "Purchase More land ",
+      "2x Mansion Boost",
+      mansionImg,
+      setMoney,
+      150,
+      600,
+      500,
+      2000
+    ),
+    useItem(
+      "The Real Deal",
+      "Upgrade Real Deal",
+      "2x Real Deal Boost",
+      islandImg,
+      setMoney,
+      300,
+      800,
+      650,
+      3000
+    )
+  ];
 
   // Sell and purchase are functions which are ran after clicking
   // buttons and images. We use these to change the amount of money we have,

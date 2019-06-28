@@ -6,7 +6,6 @@ const useItem = (
   sellerName = "",
   bonusName = "",
   imageUrl = "",
-  items = [],
   setMoney = () => {},
   price = 0,
   purchaserPrice = 0,
@@ -20,7 +19,7 @@ const useItem = (
 
   useInterval(() => setMoney(hasPurchaser * price), 1000);
 
-  return items.concat({
+  return {
     hasItem,
     setHasItem,
     itemPrice: price,
@@ -41,7 +40,7 @@ const useItem = (
 
     itemClickRate,
     setItemClickRate
-  });
+  };
 };
 
 export default useItem;

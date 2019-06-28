@@ -48,7 +48,7 @@ const Purchaser = ({
         lowlightColour={lowlightColour}
         textColour={textColour}
         disabled={disabled}
-        fullWidth={true}
+        fullWidth={fullWidth}
       />
     </li>
   );
