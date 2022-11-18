@@ -9,7 +9,7 @@
     "emotion": "^10.0.14",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "typography": "^0.16.19",
     "use-interval": "^1.1.0"
   },
